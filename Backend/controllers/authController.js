@@ -92,26 +92,31 @@ export const getMe = async (req, res) => {
 
 export const forgotPassword = async (req, res) => {
   try {
-    console.log("Forgot password for:", req.body.email);
+    console.log("STEP 1: route hit");
 
     const user = await User.findOne({ email: req.body.email });
+    console.log("STEP 2: user lookup done");
 
     if (!user)
       return res.status(404).json({ message: "User not found" });
 
     const resetToken = user.getResetPasswordToken();
+    console.log("STEP 3: token created");
+
     await user.save({ validateBeforeSave: false });
+    console.log("STEP 4: user saved");
 
     const resetURL =
       `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
-
-    console.log("Reset URL:", resetURL);
+    console.log("STEP 5: URL built", resetURL);
 
     await sendEmail({
       email: user.email,
       subject: "Password Reset - Vedika",
-      message: `Reset: ${resetURL}`
+      message: `Reset your password:\n\n${resetURL}`
     });
+
+    console.log("STEP 6: email sent");
 
     res.json({ message: "Reset email sent successfully" });
 
@@ -120,8 +125,6 @@ export const forgotPassword = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-
-
 
 /* =====================================
    RESET PASSWORD
