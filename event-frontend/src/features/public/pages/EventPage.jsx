@@ -266,7 +266,7 @@ export default function EventPage() {
               
               <div className="button-stack" style={{display: 'flex', flexDirection: 'column', gap: '16px'}}>
                 <button className="p-btn btn-core" onClick={() => navigate(`/events/${id}/experience`)}>
-                  ENTER PORTAL
+                  ENTER PORTAL|hello
                 </button>
 
                 <div className="secondary-actions" style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px'}}>
