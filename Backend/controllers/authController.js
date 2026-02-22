@@ -90,38 +90,68 @@ export const getMe = async (req, res) => {
    FORGOT PASSWORD
 ===================================== */
 
+// export const forgotPassword = async (req, res) => {
+//   try {
+//     console.log("Forgot password for:", req.body.email);
+
+//     const user = await User.findOne({ email: req.body.email });
+
+//     if (!user)
+//       return res.status(404).json({ message: "User not found" });
+
+//     const resetToken = user.getResetPasswordToken();
+//     await user.save({ validateBeforeSave: false });
+
+//     const resetURL =
+//       `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+
+//     console.log("Reset URL:", resetURL);
+
+//     await sendEmail({
+//       email: user.email,
+//       subject: "Password Reset - Vedika",
+//       message: `Reset: ${resetURL}`
+//     });
+
+//     res.json({ message: "Reset email sent successfully" });
+
+//   } catch (err) {
+//     console.error("FORGOT ERROR:", err);
+//     res.status(500).json({ message: err.message });
+//   }
+// };
+
 export const forgotPassword = async (req, res) => {
   try {
-    console.log("Forgot password for:", req.body.email);
+    console.log("STEP 1: route hit");
 
     const user = await User.findOne({ email: req.body.email });
+    console.log("STEP 2: user lookup done");
 
-    if (!user)
+    if (!user) {
+      console.log("STEP 2A: user not found");
       return res.status(404).json({ message: "User not found" });
+    }
 
     const resetToken = user.getResetPasswordToken();
+    console.log("STEP 3: token created");
+
     await user.save({ validateBeforeSave: false });
+    console.log("STEP 4: user saved");
 
-    const resetURL =
-      `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+    const resetURL = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+    console.log("STEP 5: URL built", resetURL);
 
-    console.log("Reset URL:", resetURL);
+    // EMAIL TEMPORARILY DISABLED
+    console.log("STEP 6: email skipped");
 
-    await sendEmail({
-      email: user.email,
-      subject: "Password Reset - Vedika",
-      message: `Reset: ${resetURL}`
-    });
-
-    res.json({ message: "Reset email sent successfully" });
+    return res.json({ message: "Reached end OK" });
 
   } catch (err) {
-    console.error("FORGOT ERROR:", err);
-    res.status(500).json({ message: err.message });
+    console.error("FORGOT CRASH:", err);
+    return res.status(500).json({ message: err.message });
   }
 };
-
-
 
 /* =====================================
    RESET PASSWORD
