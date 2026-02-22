@@ -1,0 +1,803 @@
+/* =====================================================
+   ROOT — VR FUTURISTIC THEME
+===================================================== */
+
+:root {
+  --primary: #6366f1;
+  --primary-glow: rgba(99, 102, 241, 0.55);
+
+  --bg-deep: #0b1020;
+  --bg-surface: rgba(30, 41, 59, 0.6);
+
+  --border-color: rgba(255, 255, 255, 0.08);
+
+  --text-main: #f8fafc;
+  --text-dim: #94a3b8;
+
+  --radius: 16px;
+  --blur: blur(16px);
+
+  --transition: all 0.3s ease;
+}
+
+/* =====================================================
+   ROOT LAYOUT (📱 MOBILE FIRST)
+===================================================== */
+
+.dash-root {
+  display: flex;
+  min-height: 100vh;
+
+  background:
+    radial-gradient(circle at top left, #1e293b, transparent 60%),
+    linear-gradient(135deg, #0b1020, #0f172a);
+
+  color: var(--text-main);
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+
+
+/* =====================================================
+   SIDEBAR (Drawer style)
+===================================================== */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -100%;
+
+  width: 260px;
+  height: 100vh;
+
+  background: var(--bg-surface);
+  backdrop-filter: var(--blur);
+
+  border-right: 1px solid var(--border-color);
+
+  padding: 22px;
+
+  display: flex;
+  flex-direction: column;
+
+  transition: var(--transition);
+  z-index: 1500;
+}
+
+.sidebar.open {
+  left: 0;
+  box-shadow: 0 0 60px rgba(0,0,0,0.6);
+}
+
+
+
+/* =====================================================
+   SAFE OVERLAY (does NOT block header/hamburger)
+===================================================== */
+
+.sidebar.open ~ .dash-main::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(4px);
+
+  z-index: 1400;
+}
+
+
+
+/* =====================================================
+   SIDEBAR LINKS
+===================================================== */
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.sidebar a {
+  color: var(--text-dim);
+  text-decoration: none;
+
+  padding: 14px 16px;
+  border-radius: var(--radius);
+
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,0.06);
+  color: white;
+  transform: translateX(4px);
+}
+
+.sidebar a.active {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 0 18px var(--primary-glow);
+}
+
+.logout {
+  margin-top: auto;
+  margin-bottom: 10px; /* Space from the bottom */
+  padding: 12px 16px;
+  
+  /* Layout */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  
+  /* Aesthetics */
+  color: #fda4af; /* Soft rose instead of harsh red */
+  background: rgba(244, 63, 94, 0.03); /* Barely-there red tint */
+  border: 1px solid rgba(244, 63, 94, 0.1);
+  border-radius: 12px;
+  
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  cursor: pointer;
+  
+  /* Smoothness is beauty */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.logout:hover {
+  background: rgba(244, 63, 94, 0.1); /* Deepen tint */
+  color: #fff;
+  border-color: rgba(244, 63, 94, 0.4);
+  
+  /* The "Beautiful" part: A subtle, soft red glow */
+  box-shadow: 0 4px 20px rgba(244, 63, 94, 0.2);
+  transform: translateY(-2px);
+}
+
+.logout:active {
+  transform: translateY(0) scale(0.98); /* Tactile click feel */
+}
+
+/* Optional: Add a small icon dot or SVG icon */
+.logout::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: currentColor;
+  border-radius: 50%;
+  box-shadow: 0 0 8px currentColor;
+}
+
+
+/* =====================================================
+   MAIN AREA
+===================================================== */
+
+.dash-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+}
+
+
+
+/* =====================================================
+   HEADER (always clickable)
+===================================================== */
+
+.header {
+  height: 60px;
+
+  padding: 0 16px;
+
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: var(--blur);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  border-bottom: 1px solid var(--border-color);
+
+  position: sticky;
+  top: 0;
+
+  z-index: 2000; /* ABOVE overlay */
+}
+
+
+
+/* =====================================================
+   HAMBURGER BUTTON (high visibility)
+===================================================== */
+
+.menu-btn {
+  font-size: 1.7rem;
+
+  background: transparent;
+  border: none;
+
+  color: white;
+  opacity: 0.9;
+
+  cursor: pointer;
+  padding: 8px 10px;
+
+  border-radius: 10px;
+  transition: var(--transition);
+}
+
+.menu-btn:hover {
+  background: rgba(255,255,255,0.08);
+  opacity: 1;
+}
+
+/* highlight when sidebar open */
+.sidebar.open ~ .dash-main .menu-btn {
+  color: var(--primary);
+  box-shadow: 0 0 12px var(--primary-glow);
+}
+
+
+
+/* =====================================================
+   CONTENT AREA
+===================================================== */
+
+.dash-content {
+  padding: 16px;
+  width: 100%;
+}
+
+
+
+/* =====================================================
+   CARDS (stack mobile)
+===================================================== */
+
+.card {
+  background: var(--bg-surface);
+  backdrop-filter: var(--blur);
+
+  border-radius: var(--radius);
+  border: 1px solid var(--border-color);
+
+  padding: 16px;
+  margin-bottom: 14px;
+
+  transition: var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+/* =================================
+   LOGO — Vedic Cultural Style
+================================= */
+
+.logo {
+  font-family: "Trio Serif Devanagari", serif; /* or Tiro Devanagari Sanskrit */
+
+  font-size: 1.6rem;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  color: white;
+
+  /* subtle divine glow */
+  text-shadow:
+    0 0 6px rgba(255,255,255,0.15),
+    0 0 18px rgba(99,102,241,0.35);
+
+  user-select: none;
+}
+
+
+/* =====================================================
+   TABLET (≥768px)
+===================================================== */
+
+@media (min-width: 768px) {
+
+  .header {
+    height: 70px;
+    padding: 0 28px;
+  }
+
+  .dash-content {
+    padding: 28px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+}
+
+
+
+/* =====================================================
+   DESKTOP (≥1024px)
+===================================================== */
+
+@media (min-width: 1024px) {
+
+  /* sidebar permanently visible */
+  .sidebar {
+    left: 0;
+  }
+
+  .dash-main {
+    margin-left: 260px;
+  }
+
+  .menu-btn {
+    display: none;
+  }
+
+  .dash-content {
+    padding: 36px;
+    max-width: 1400px;
+    margin: auto;
+  }
+}
+.page-title {
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+
+/* GRID */
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* CARD */
+.stat-card {
+  background: #1e293b;
+  padding: 20px;
+  border-radius: 14px;
+  border: 1px solid #334155;
+}
+
+.stat-title {
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 6px;
+}
+
+/* DESKTOP */
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.events-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.create-btn {
+  background: #2563eb;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+}
+
+.events-table {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.event-row {
+  background: #1e293b;
+  padding: 14px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.row-actions button {
+  background: #ef4444;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+/* modal */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: #111827;
+  padding: 20px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.badge.draft {
+  background: #475569;
+}
+
+.badge.published {
+  background: #16a34a;
+}
+.field-builder {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.fields-count {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.event-info {
+  display: flex;
+  flex-direction: column;
+}
+.events-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.create-btn {
+  background: #2563eb;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 8px;
+}
+
+.events-table {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.event-row {
+  background: #1e293b;
+  padding: 14px;
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  flex-wrap: wrap;
+}
+
+.event-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+.badge.draft {
+  background: #475569;
+}
+
+.badge.published {
+  background: #16a34a;
+}
+
+.fields-count {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.row-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.row-actions button {
+  background: #334155;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+/* MODAL BACKDROP */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+/* MODAL CONTAINER */
+.modal.large {
+  background: #ffffff;
+  width: 100%;
+  max-width: 600px;
+  max-height: 85vh; /* Limits height so it doesn't leave the screen */
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column; /* Stacks Header, Form, Footer */
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+}
+
+/* FIXED HEADER */
+.modal.large h2 {
+  margin: 0;
+  padding: 16px 24px;
+  font-size: 1.25rem;
+  border-bottom: 1px solid #e2e8f0;
+  color: #1a202c;
+  flex-shrink: 0;
+}
+
+/* SCROLLABLE FORM BODY */
+form {
+  flex: 1; /* Grows to fill middle space */
+  overflow-y: auto; /* Enables scrolling for fields */
+  padding: 20px 24px; /* Balanced padding */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* INPUT STYLING */
+.input, 
+select, 
+textarea, 
+.field-builder input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #f8fafc;
+  box-sizing: border-box;
+}
+
+textarea {
+  min-height: 80px; /* Reduced default height */
+  resize: vertical;
+}
+
+/* FIELD BUILDER ROW */
+.field-builder {
+  display: grid;
+  grid-template-columns: 1fr 120px 40px; /* Label | Type | Delete */
+  gap: 10px;
+  padding: 12px;
+  background: #f1f5f9;
+  border-radius: 8px;
+  align-items: center;
+  border: 1px solid #e2e8f0;
+}
+
+/* Ensure options span full width under the inputs */
+.field-builder textarea {
+  grid-column: 1 / span 3;
+  min-height: 60px;
+  margin-top: 4px;
+}
+
+/* FIXED FOOTER ACTIONS */
+.modal-actions {
+  padding: 16px 24px;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  background: #ffffff;
+  flex-shrink: 0;
+}
+
+/* BUTTONS */
+button {
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+button:not([type="button"]) {
+  background: #4f46e5;
+  color: white;
+}
+
+button[type="button"] {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+/* SCROLLBAR TWEAKS */
+form::-webkit-scrollbar {
+  width: 6px;
+}
+form::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 480px) {
+  .field-builder {
+    grid-template-columns: 1fr 1fr;
+  }
+  .field-builder button {
+    grid-column: 2;
+    justify-self: end;
+  }
+}
+
+/* 1. Change the radio dot color */
+.radio-group {
+  display: flex;
+  gap: 8px;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 8px;
+  width: fit-content;
+  color: #2563eb;
+}
+
+.radio-group label {
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.radio-group label:has(input:checked) {
+  background: #ffffff;
+  
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+/* =========================================================
+   THEME LAYOUTS (NEW ADDITIONS ONLY)
+   Applied via: body[data-layout="minimal"] etc
+========================================================= */
+
+/* DEFAULT CLEAN */
+body[data-layout="minimal"] {
+  --bg: #0f172a;
+  --bg-card: #1e293b;
+}
+
+
+/* GLASSMORPHISM */
+body[data-layout="glass"] {
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+}
+
+body[data-layout="glass"] .card,
+body[data-layout="glass"] .modal {
+  backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+
+/* TECH / HACKATHON */
+body[data-layout="plexus"] {
+  background: radial-gradient(circle at 20% 20%, #1e293b, #0f172a);
+}
+
+body[data-layout="plexus"]::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(#ffffff08 1px, transparent 1px),
+    linear-gradient(90deg, #ffffff08 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+
+/* CULTURAL FLOW */
+body[data-layout="silk_flow"] {
+  background: linear-gradient(120deg, #7c3aed, #ec4899, #f59e0b);
+  background-size: 400% 400%;
+  animation: silkFlow 18s ease infinite;
+}
+
+@keyframes silkFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+/* STAGE / SPOTLIGHT */
+body[data-layout="spotlight"] {
+  background: radial-gradient(circle at center, #1e293b 0%, #0b1020 80%);
+}
+
+body[data-layout="spotlight"] .card {
+  box-shadow: 0 0 30px rgba(59,130,246,.35);
+}
+
+
+/* VINTAGE */
+body[data-layout="vintage"] {
+  background: #f5e6c8;
+  color: #3b2f2f;
+}
+
+body[data-layout="vintage"] .card {
+  background: #fff7e6;
+  border: 1px solid #d6c2a1;
+}
+
+
+/* NEON FUTURISTIC */
+body[data-layout="neon_grid"] {
+  background: #0b0f1a;
+}
+
+body[data-layout="neon_grid"] .card {
+  border: 1px solid #00f0ff55;
+  box-shadow: 0 0 20px #00f0ff33;
+}
+
+
+/* FESTIVAL */
+body[data-layout="festival"] {
+  background: linear-gradient(135deg, #ff0080, #7928ca, #2afadf);
+}
+
+
+/* ELEGANT */
+body[data-layout="elegant"] {
+  background: #111;
+}
+
+body[data-layout="elegant"] .card {
+  border: 1px solid #333;
+  box-shadow: 0 10px 30px rgba(0,0,0,.6);
+}
+
+
+/* PLAYFUL */
+body[data-layout="playful"] {
+  background: linear-gradient(135deg, #fef08a, #93c5fd);
+}

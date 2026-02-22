@@ -1,0 +1,171 @@
+/* Import a tech-focused font */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+
+:root {
+  --primary: #8b5cf6;      /* Electric Violet */
+  --secondary: #ec4899;    /* Festive Pink */
+  --bg-dark: #0f172a;
+  --glass: rgba(255, 255, 255, 0.03);
+  --glass-stroke: rgba(255, 255, 255, 0.08);
+  --text-primary: #f8fafc;
+  --text-muted: #94a3b8;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* 1. Fluid Background with Animated Mesh */
+.auth-page {
+  min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--bg-dark);
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 40%);
+  padding: 1.5rem;
+}
+
+/* 2. Responsive Card */
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--glass);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-stroke);
+  border-radius: 2rem;
+  padding: 3rem 2rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease;
+}
+
+/* 3. Typography Hierarchy */
+.auth-title {
+  color: var(--text-primary);
+  font-size: clamp(1.5rem, 5vw, 2rem); /* Fluid typography */
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(to right, #fff, var(--text-muted));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.auth-subtitle {
+  color: var(--text-muted);
+  text-align: center;
+  font-size: 0.95rem;
+  margin-bottom: 2.5rem;
+}
+
+/* 4. Form & Adaptive Inputs */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.auth-input {
+  width: 100%;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid var(--glass-stroke);
+  border-radius: 1rem;
+  padding: 1rem 1.25rem;
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.auth-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: rgba(15, 23, 42, 0.8);
+  box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1);
+}
+
+/* 5. High-Performance Button */
+.auth-btn {
+  position: relative;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.auth-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(139, 92, 246, 0.5);
+}
+
+.auth-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.auth-btn:disabled {
+  filter: grayscale(1);
+  opacity: 0.5;
+  cursor: wait;
+}
+
+/* 6. Links & Navigation */
+.auth-links {
+  display: flex;
+  flex-wrap: wrap; /* Wraps links on very small screens */
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.auth-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.auth-links a:hover {
+  color: var(--secondary);
+}
+
+/* 7. Mobile-Specific Adjustments */
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 2rem 1.5rem;
+    border-radius: 1.5rem;
+    background: transparent; /* Cleaner mobile look */
+    border: none;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+  
+  .auth-page {
+    background-image: 
+      radial-gradient(circle at top right, rgba(139, 92, 246, 0.2), transparent),
+      radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.2), transparent);
+  }
+
+  .auth-links {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+.error{
+    color:red;
+}

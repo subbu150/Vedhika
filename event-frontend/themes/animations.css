@@ -1,0 +1,36 @@
+/* ===== GRADIENT FLOW ===== */
+.anim-gradient {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    270deg,
+    var(--primary),
+    #9333ea,
+    var(--primary)
+  );
+  background-size: 600% 600%;
+  animation: gradientMove 12s ease infinite;
+  opacity: .15;
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% }
+  50% { background-position: 100% }
+  100% { background-position: 0% }
+}
+
+/* ===== WAVES ===== */
+.anim-waves {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: url("/waves.svg") repeat-x bottom;
+  opacity: .2;
+  animation: waveMove 12s linear infinite;
+}
+
+@keyframes waveMove {
+  from { background-position-x: 0 }
+  to { background-position-x: 1000px }
+}
