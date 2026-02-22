@@ -17,12 +17,10 @@ export default function SubmissionForm({ event, existingData, isEdit, onDone }) 
 
   const onSubmit = (data) => {
     if (event?.mode === 'booking' && !selectedSeat) return alert("Please select a seat.");
-    
     const fd = new FormData();
     const answers = { ...data };
     const files = [];
 
-    // Separate files from text answers
     Object.entries(data).forEach(([key, value]) => {
       if (value instanceof FileList && value.length > 0) {
         files.push(value[0]);
@@ -32,10 +30,8 @@ export default function SubmissionForm({ event, existingData, isEdit, onDone }) 
     });
 
     if (event?.mode === 'booking') answers.bookedSeat = selectedSeat;
-    
     fd.append("answers", JSON.stringify(answers));
     files.forEach(file => fd.append("files", file));
-    
     mutate(fd);
   };
 
@@ -51,12 +47,11 @@ export default function SubmissionForm({ event, existingData, isEdit, onDone }) 
           <input type="file" {...commonProps} id={`file-${field.name}`} />
           <label htmlFor={`file-${field.name}`} className="file-label">
             <i className="fas fa-cloud-upload-alt"></i>
-            <span>Click to upload {field.label}</span>
+            <span>{field.label}</span>
           </label>
         </div>
       );
     }
-
     return <input type={field.type} {...commonProps} placeholder={`Enter ${field.label}`} />;
   };
 
@@ -65,44 +60,108 @@ export default function SubmissionForm({ event, existingData, isEdit, onDone }) 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="interactive-form">
       <style>{`
-        .interactive-form { pointer-events: auto; position: relative; z-index: 100; }
-        .field-row { margin-bottom: 20px; text-align: left; }
-        .field-row label { display: block; font-size: 0.7rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px; }
+        .interactive-form { 
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+          max-width: 100%;
+          margin: 0 auto;
+          box-sizing: border-box;
+          padding: 8px; /* Reduced padding for tiny screens */
+          overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        .field-row { 
+          width: 100%;
+          margin-bottom: 1rem; 
+          display: flex;
+          flex-direction: column;
+        }
+
+        .field-row label { 
+          font-size: clamp(0.65rem, 2vw, 0.75rem); 
+          font-weight: 700; 
+          color: #94a3b8; 
+          text-transform: uppercase; 
+          margin-bottom: 4px; 
+        }
         
         .form-control { 
-          width: 100%; padding: 14px; background: #070b14; border: 1px solid #334155; 
-          border-radius: 12px; color: white; font-size: 1rem; outline: none; transition: 0.2s;
+          width: 100%; 
+          padding: 10px 12px; 
+          background: #070b14; 
+          border: 1px solid #334155; 
+          border-radius: 8px; 
+          color: white; 
+          font-size: 16px; /* Mandatory for iOS zoom prevention */
+          box-sizing: border-box;
         }
-        .form-control:focus { border-color: ${primaryColor}; box-shadow: 0 0 0 4px ${primaryColor}22; }
 
-        /* File Upload Styling */
-        .file-upload-wrapper { position: relative; width: 100%; }
-        .file-upload-wrapper input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; z-index: 2; }
-        .file-label { 
-          display: flex; flex-direction: column; align-items: center; justify-content: center;
-          padding: 20px; border: 2px dashed #334155; border-radius: 12px; background: #0f172a;
-          color: #94a3b8; transition: 0.2s; cursor: pointer;
-        }
-        .file-upload-wrapper:hover .file-label { border-color: ${primaryColor}; color: white; }
-        .file-label i { font-size: 1.5rem; margin-bottom: 8px; }
-
+        /* ULTRA-SMALL SEAT GRID (Less than 350px) */
         .booking-grid { 
-          display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; 
-          background: #070b14; padding: 15px; border-radius: 16px; border: 1px solid #334155;
+          display: grid; 
+          /* This allows seats to get as small as 32px to fit 5-6 across on a 280px screen */
+          grid-template-columns: repeat(auto-fill, minmax(32px, 1fr)); 
+          gap: 6px; 
+          background: #0f172a; 
+          padding: 8px; 
+          border-radius: 8px; 
+          border: 1px solid #334155;
+          max-height: 300px;
+          overflow-y: auto;
         }
+
         .seat-btn { 
-          aspect-ratio: 1; border-radius: 8px; border: none; font-weight: 800; font-size: 0.75rem; 
-          cursor: pointer; transition: 0.2s; background: #1e293b; color: white;
+          aspect-ratio: 1 / 1; 
+          border-radius: 6px; 
+          border: none; 
+          font-weight: 700; 
+          font-size: 0.75rem; 
+          background: #1e293b; 
+          color: white;
+          display: flex; 
+          align-items: center; 
+          justify-content: center;
+          padding: 0;
+          min-width: 0; /* Allows shrinking in flex/grid contexts */
         }
-        .seat-btn.active { background: ${primaryColor}; transform: scale(1.1); }
-        .seat-btn.taken { background: #ef444433; color: #ef4444; cursor: not-allowed; }
+
+        .seat-btn.active { background: ${primaryColor}; box-shadow: 0 0 8px ${primaryColor}88; }
+        .seat-btn.taken { background: #ef444415; color: #ef4444; opacity: 0.5; }
         
         .main-submit { 
-          width: 100%; padding: 18px; border-radius: 16px; border: none; color: white; 
-          font-weight: 800; font-size: 1rem; margin-top: 30px; cursor: pointer; transition: 0.3s;
+          width: 100%; 
+          padding: 14px; 
+          border-radius: 10px; 
+          border: none; 
+          color: white; 
+          font-weight: 700; 
+          font-size: 0.95rem; 
+          margin-top: 10px;
           background: ${primaryColor};
+          cursor: pointer;
         }
-        .main-submit:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 10px 20px ${primaryColor}44; }
+
+        /* File Label compact mode */
+        .file-label { 
+          display: flex; 
+          align-items: center; 
+          justify-content: center;
+          gap: 8px;
+          padding: 16px 10px; 
+          border: 2px dashed #334155; 
+          border-radius: 8px; 
+          background: #0f172a;
+          color: #94a3b8;
+          font-size: 0.85rem;
+        }
+
+        /* Hide icon on extremely small screens to save space */
+        @media (max-width: 320px) {
+          .file-label i { display: none; }
+          .booking-grid { gap: 4px; padding: 4px; }
+          .seat-btn { font-size: 0.65rem; }
+        }
       `}</style>
 
       {event?.fields?.map((field) => (
@@ -114,7 +173,7 @@ export default function SubmissionForm({ event, existingData, isEdit, onDone }) 
 
       {event?.mode === 'booking' && (
         <div className="field-row">
-          <label>Select Your Seat(Seat Number are only for count first come firs seat)</label>
+          <label>Select Seat</label>
           <div className="booking-grid">
             {Array.from({ length: event?.booking?.capacity || 20 }).map((_, i) => {
               const sid = `S-${i + 1}`;
@@ -134,7 +193,7 @@ export default function SubmissionForm({ event, existingData, isEdit, onDone }) 
       )}
 
       <button type="submit" className="main-submit" disabled={isPending}>
-        {isPending ? "Connecting..." : isEdit ? "Update Registration" : "Confirm My Entry"}
+        {isPending ? "Wait..." : isEdit ? "Update" : "Confirm"}
       </button>
     </form>
   );
