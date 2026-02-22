@@ -1,22 +1,25 @@
 import nodemailer from "nodemailer";
 
-const sendEmail = async (options) => {
+const sendEmail = async ({ email, subject, message }) => {
   const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS
-    }
+    },
+    connectionTimeout: 15000,
+    greetingTimeout: 15000,
+    socketTimeout: 15000
   });
 
-  const mailOptions = {
+  await transporter.sendMail({
     from: `Vedika <${process.env.EMAIL_USER}>`,
-    to: options.email,
-    subject: options.subject,
-    text: options.message
-  };
-
-  await transporter.sendMail(mailOptions);
+    to: email,
+    subject,
+    text: message
+  });
 };
 
 export default sendEmail;
