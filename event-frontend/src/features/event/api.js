@@ -1,5 +1,5 @@
 import api from "../../api/client";
-import Status from "../../features/public/components/stautus.JSX";
+
 /* ---------------- GET ---------------- */
 export const getEventsRequest = async () => {
   const res = await api.get("/events");
