@@ -23,7 +23,8 @@ import EventExperience from "../features/public/pages/EventExperience";
 import HomePage from "../features/public/pages/HomePage";
 import EventPage from "../features/public/pages/EventPage";
 import Status from "../features/public/components/stautus.jsx";
-export const router = createBrowserRouter([
+export const router = createBrowserRouter([,
+
 
   /* ================= AUTH ================= */
 
@@ -83,4 +84,7 @@ export const router = createBrowserRouter([
   /* ================= FALLBACK ================= */
   {path:"status",element:<Status/>},
   { path: "*", element: <LoginPage /> },
-]);
+],
+{
+    basename: "/",
+  });
