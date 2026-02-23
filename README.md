@@ -1,6 +1,6 @@
 
 
-# Vedhika — No-Code Event Website & Event Lifecycle SaaS Platform
+# వేదిక — No-Code Event Website & Event Lifecycle SaaS Platform
 
 Vedhika is a full-stack SaaS platform that enables colleges and organizations to create complete event websites and manage the entire event lifecycle without coding.
 
