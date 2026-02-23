@@ -9,11 +9,13 @@ export default function App() {
 
   return (
     <Providers>
+      {/* Router must always exist */}
+      <RouterProvider router={router} />
+
+      {/* Loader overlays UI, not router */}
       {loading && (
         <IntroLoader onFinish={() => setLoading(false)} />
       )}
-
-      {!loading && <RouterProvider router={router} />}
     </Providers>
   );
 }
