@@ -5,7 +5,7 @@
 Vedhika is a full-stack SaaS platform that enables colleges and organizations to create complete event websites and manage the entire event lifecycle without coding.
 
 Organizers can dynamically design event pages, support multiple event modes (online/offline), manage registrations, submissions, showcases, and generate downloadable certificates — all from a single platform.
-
+(By default, after logging in you will be assigned the role of a Participant. If you would like to access the platform as an Admin for testing purposes, please feel free to contact me.)
 ---
 
 # 🚀 Live Demo
