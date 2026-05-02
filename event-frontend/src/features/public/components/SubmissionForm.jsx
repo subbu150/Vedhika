@@ -35,25 +35,86 @@ export default function SubmissionForm({ event, existingData, isEdit, onDone }) 
     mutate(fd);
   };
 
-  const renderField = (field) => {
-    const commonProps = {
-      ...register(field.name, { required: field.required }),
-      className: "form-control"
-    };
+const renderField = (field) => {
+  const commonProps = {
+    ...register(field.name, { required: field.required }),
+    className: "form-control"
+  };
 
-    if (field.type === "file") {
+  switch (field.type) {
+    case "textarea":
+      return (
+        <textarea
+          {...commonProps}
+          placeholder={`Enter ${field.label}`}
+          rows={3}
+        />
+      );
+
+    case "select":
+      return (
+        <select {...commonProps}>
+          <option value="">Select {field.label}</option>
+          {field.options?.map((opt, i) => (
+            <option key={i} value={opt}>
+              {opt}
+            </option>
+          ))}
+        </select>
+      );
+
+    case "radio":
+      return (
+        <div className="radio-group">
+          {field.options?.map((opt, i) => (
+            <label key={i}>
+              <input
+                type="radio"
+                value={opt}
+                {...register(field.name, { required: field.required })}
+              />
+              {opt}
+            </label>
+          ))}
+        </div>
+      );
+
+    case "checkbox":
+      return (
+        <div className="checkbox-group">
+          {field.options?.map((opt, i) => (
+            <label key={i}>
+              <input
+                type="checkbox"
+                value={opt}
+                {...register(field.name)}
+              />
+              {opt}
+            </label>
+          ))}
+        </div>
+      );
+
+    case "file":
       return (
         <div className="file-upload-wrapper">
           <input type="file" {...commonProps} id={`file-${field.name}`} />
           <label htmlFor={`file-${field.name}`} className="file-label">
-            <i className="fas fa-cloud-upload-alt"></i>
             <span>{field.label}</span>
           </label>
         </div>
       );
-    }
-    return <input type={field.type} {...commonProps} placeholder={`Enter ${field.label}`} />;
-  };
+
+    default:
+      return (
+        <input
+          type={field.type || "text"}
+          {...commonProps}
+          placeholder={`Enter ${field.label}`}
+        />
+      );
+  }
+};
 
   if (!event) return null;
 
